@@ -14,6 +14,8 @@ python scripts/rulec.py export my.ruleset.json -o 自查工具.py    # 单文件
 
 内核零第三方依赖（`kernel.py` 只 import `datetime/json/pathlib`）。导出物是同一份内核 + 内嵌规则 JSON 的单文件。
 
+`SKILL.md` 是给 AI agent 看的操作说明书（本项目同时也是 Claude Code / ZCode 等 harness 可加载的 skill），人读 `README.md` 就够。
+
 ---
 
 ## 它解决什么问题
