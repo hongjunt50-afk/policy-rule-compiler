@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# 编译产物按需生成（rulec build），不入库
+*.ruleset.json

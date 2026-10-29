@@ -1,0 +1,57 @@
+{
+ "case_id": "claims-demo",
+ "note": "医保两库规则跨域验证用例，人物与编号全部虚构",
+ "claims": [
+  {
+   "claim_no": "CL-1",
+   "patient_id": "P1",
+   "patient_sex": "男",
+   "patient_age": 41,
+   "service_date": "2025-06-01",
+   "start_time": "09:00",
+   "end_time": "10:00",
+   "items": [
+    {
+     "drug": "药品A"
+    }
+   ],
+   "flags": {
+    "dose_ratio": 1.0
+   }
+  },
+  {
+   "claim_no": "CL-2",
+   "patient_id": "P1",
+   "patient_sex": "男",
+   "patient_age": 41,
+   "service_date": "2025-06-01",
+   "start_time": "09:30",
+   "end_time": "10:30",
+   "items": [
+    {
+     "drug": "药品D"
+    }
+   ],
+   "flags": {
+    "dose_ratio": 1.5
+   }
+  },
+  {
+   "claim_no": "CL-3",
+   "patient_id": "P2",
+   "patient_sex": "女",
+   "patient_age": 30,
+   "service_date": "2025-06-02",
+   "start_time": "09:00",
+   "end_time": "10:00",
+   "items": [
+    {
+     "drug": "药品C"
+    }
+   ],
+   "flags": {
+    "dose_ratio": 0.5
+   }
+  }
+ ]
+}

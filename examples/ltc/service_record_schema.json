@@ -1,0 +1,138 @@
+{
+  "title": "长期护理保险服务记录单",
+  "filling_rule": "一服务一记录，按次填写；记录服务开始时间、结束时间、实际服务项目与服务时长",
+  "fields": [
+    {
+      "key": "record_no",
+      "label": "服务编号",
+      "required": true,
+      "group": "表头"
+    },
+    {
+      "key": "org_name",
+      "label": "服务机构",
+      "required": true,
+      "group": "表头"
+    },
+    {
+      "key": "service_type",
+      "label": "服务类型",
+      "required": true,
+      "group": "表头：居家护理/机构护理/社区护理"
+    },
+    {
+      "key": "elder_name",
+      "label": "参保人姓名",
+      "required": true,
+      "group": "服务对象"
+    },
+    {
+      "key": "elder_id_card",
+      "label": "身份证号",
+      "required": true,
+      "group": "服务对象"
+    },
+    {
+      "key": "disability_level",
+      "label": "失能等级",
+      "required": true,
+      "group": "服务对象"
+    },
+    {
+      "key": "elder_phone",
+      "label": "联系电话",
+      "required": false,
+      "group": "服务对象"
+    },
+    {
+      "key": "service_address",
+      "label": "服务地址",
+      "required": true,
+      "group": "服务对象"
+    },
+    {
+      "key": "caregiver_name",
+      "label": "护理人员姓名",
+      "required": true,
+      "group": "服务主体"
+    },
+    {
+      "key": "caregiver_qualification",
+      "label": "护理人员资质",
+      "required": true,
+      "group": "服务主体：长期照护师/护士/医生/医疗护理员/养老护理员/其他"
+    },
+    {
+      "key": "bed_no",
+      "label": "床号",
+      "required": false,
+      "group": "机构护理类填写"
+    },
+    {
+      "key": "service_date",
+      "label": "服务日期",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "start_time",
+      "label": "服务开始时间",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "end_time",
+      "label": "服务结束时间",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "duration_min",
+      "label": "时长（分钟）",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "items",
+      "label": "服务项目内容",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "item_count",
+      "label": "服务项目数合计",
+      "required": true,
+      "group": "服务记录栏"
+    },
+    {
+      "key": "abnormal_note",
+      "label": "异常情况说明",
+      "required": false,
+      "group": "异常与确认"
+    },
+    {
+      "key": "remedy",
+      "label": "处理措施",
+      "required": false,
+      "group": "异常与确认"
+    },
+    {
+      "key": "remedy_time",
+      "label": "处理时间",
+      "required": false,
+      "group": "异常与确认"
+    },
+    {
+      "key": "caregiver_sign",
+      "label": "护理人员签字",
+      "required": true,
+      "group": "签字确认栏"
+    },
+    {
+      "key": "elder_sign",
+      "label": "参保人员（家属）签名",
+      "required": true,
+      "group": "签字确认栏"
+    }
+  ]
+}

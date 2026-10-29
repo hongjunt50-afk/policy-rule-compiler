@@ -1,0 +1,41 @@
+{
+ "case_id": "NOPLAN-2026-10-001",
+ "note": "无护理计划用例：老人未建计划时，W_OFF_PLAN / W_FREQ_* 都不该报（没有可比对象，不是违规）。",
+ "elders": [
+  {
+   "elder_id": "E400",
+   "name": "无计划某",
+   "service_type": "居家护理",
+   "disability_level": "重度失能Ⅱ级",
+   "address": "示例市示例区无计划路 1 号",
+   "plan": []
+  }
+ ],
+ "caregivers": [
+  {
+   "caregiver_id": "C400",
+   "name": "某护",
+   "qualification": "长期照护师"
+  }
+ ],
+ "records": [
+  {
+   "record_no": "R-4001",
+   "elder_id": "E400",
+   "caregiver_id": "C400",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区无计划路 1 号",
+   "service_date": "2026-10-05",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  }
+ ]
+}

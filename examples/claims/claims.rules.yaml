@@ -1,0 +1,84 @@
+ruleset: medicare-claims-guard
+version: 0.1.0-spike
+title: 医保结算单据合规核验（跨域通用性验证）
+effective_from: 2025-05-01
+sources:
+  - id: liangku-1.0
+    title: 医疗保障基金智能审核和监控知识库、规则库框架体系（1.0版）
+    issuer: 国家医疗保障局
+
+params:
+  max_daily_dose_ratio: 2
+
+dictionaries:
+  female_only: [药品A, 药品B]
+  male_only: [药品C]
+  children_only: [药品D, 药品E]
+
+rules:
+  - id: E_SEX_RESTRICTED_DRUG
+    kind: check
+    severity: E
+    clause: 两库框架体系·政策类（药品区分性别使用）
+    scope:
+      collection: claims
+      as: c
+      iterate: {over: {ref: c.items}, as: line}
+    when:
+      or:
+        - and:
+            - in: [{ref: line.drug}, {dict: female_only}]
+            - ne: [{ref: c.patient_sex}, {const: 女}]
+        - and:
+            - in: [{ref: line.drug}, {dict: male_only}]
+            - ne: [{ref: c.patient_sex}, {const: 男}]
+    message: 药品「{drug}」有性别限定，参保人性别为 {sex}
+    evidence: {drug: {ref: line.drug}, sex: {ref: c.patient_sex}}
+    record_ref: {ref: c.claim_no}
+
+  - id: E_CHILD_ONLY_DRUG_ADULT
+    kind: check
+    severity: E
+    clause: 两库框架体系·政策类（药品限儿童使用）
+    scope:
+      collection: claims
+      as: c
+      filter: {ge: [{ref: c.patient_age}, {const: 18}]}
+      iterate: {over: {ref: c.items}, as: line}
+    when: {in: [{ref: line.drug}, {dict: children_only}]}
+    message: 药品「{drug}」限儿童使用，参保人 {age} 岁
+    evidence: {drug: {ref: line.drug}, age: {ref: c.patient_age}}
+    record_ref: {ref: c.claim_no}
+
+  - id: W_DAILY_DOSE_EXCESS
+    kind: aggregate
+    severity: W
+    clause: 两库框架体系·医疗类（超剂量使用）
+    scope:
+      collection: claims
+      as: c
+      group_by: [c.patient_id, c.service_date]
+      group_names: [patient_id, date]
+      measure:
+        ref_field: {row: {ref: c.flags}, field: {const: dose_ratio}}
+    when: {gt: [{ref: total}, {param: max_daily_dose_ratio}]}
+    message: 参保人 {patient_id} 在 {date} 累计剂量倍数 {total}，超过阈值 {threshold}
+    evidence:
+      patient_id: {ref: group.patient_id}
+      date: {ref: group.date}
+      total: {ref: total}
+      threshold: {param: max_daily_dose_ratio}
+
+  - id: E_MULTI_CLAIM_OVERLAP
+    kind: overlap
+    severity: E
+    clause: 两库框架体系·管理类（重复结算）
+    scope:
+      collection: claims
+      as: c
+      group_by: [c.patient_id, c.service_date]
+      group_names: [patient_id, service_date]
+      span: [c.start_time, c.end_time]
+    message: 参保人 {patient_id} 在 {service_date} 的 {record_no} 与 {other_claim} 时段重复
+    evidence: {other_claim: {ref: other.claim_no}}
+    record_ref: {ref: c.claim_no}

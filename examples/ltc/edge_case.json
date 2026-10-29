@@ -1,0 +1,158 @@
+{
+ "case_id": "EDGE-2026-10-001",
+ "note": "变异测试覆盖用例：专挑单条 fixture 测不出的语义（求和 vs 取最大值、频次上限、计划外项目）",
+ "elders": [
+  {
+   "elder_id": "E100",
+   "name": "陈某某",
+   "service_type": "居家护理",
+   "disability_level": "重度失能Ⅱ级",
+   "address": "示例市示例区示例路 5 号 2 单元 101",
+   "plan": [
+    {
+     "name": "擦浴",
+     "freq_per_month": 1
+    },
+    {
+     "name": "协助排泄",
+     "freq_per_month": 10
+    }
+   ]
+  }
+ ],
+ "caregivers": [
+  {
+   "caregiver_id": "C101",
+   "name": "吴某",
+   "qualification": "长期照护师"
+  }
+ ],
+ "records": [
+  {
+   "record_no": "R-2001",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-05",
+   "start_time": "08:00",
+   "end_time": "13:00",
+   "duration_min": 300,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-2002",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-05",
+   "start_time": "14:00",
+   "end_time": "19:00",
+   "duration_min": 300,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-2003",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-06",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-06 20:00"
+  },
+  {
+   "record_no": "R-2004",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-07",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-07 20:00"
+  },
+  {
+   "record_no": "R-2005",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-08",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "洗发"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-08 20:00"
+  },
+  {
+   "record_no": "R-2006",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区别的路 9 号",
+   "service_date": "2026-10-09",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-09 20:00"
+  },
+  {
+   "record_no": "R-2007",
+   "elder_id": "E100",
+   "caregiver_id": "C101",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区示例路 5 号 2 单元 101",
+   "service_date": "2026-10-10",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 45,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-10 20:00"
+  }
+ ]
+}

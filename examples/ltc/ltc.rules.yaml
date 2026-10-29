@@ -1,0 +1,324 @@
+ruleset: ltc-service-consistency
+version: 0.2.0-spike
+title: 长护险服务过程一致性核验
+effective_from: 2026-01-01
+sources:
+  - id: doc-2026
+    title: 长期护理保险服务管理文书（2026 年版）
+    issuer: 国家医保局办公室
+  - id: catalog-2025
+    title: 国家长期护理保险服务项目目录（试行）
+    doc_no: 医保发〔2025〕24号
+
+params:
+  day_max_minutes: 480
+  late_entry_days: 3
+  duration_tolerance: 1
+
+dictionaries:
+  catalog_names: services_catalog.json#items[*].name
+  medical_item_names: services_catalog.json#items[category=医疗护理类].name
+  certified_qualifications: [长期照护师, 护士, 医生, 医疗护理员, 养老护理员]
+  scope_review_qualifications: [养老护理员, 医疗护理员]
+
+rules:
+  - id: E_UNKNOWN_SERVICE
+    kind: check
+    severity: E
+    clause: 国家长期护理保险服务项目目录（试行）医保发〔2025〕24号 凡例·三（准入法管理）
+    scope:
+      collection: records
+      as: r
+      iterate: {over: {ref: r.items}, as: item}
+    when: {not_in: [{ref: item}, {dict: catalog_names}]}
+    message: 服务项目「{item}」不在国家 36 项目录内
+    evidence: {item: {ref: item}}
+    record_ref: {ref: r.record_no}
+
+  - id: E_BAD_TIME
+    kind: check
+    severity: E
+    clause: 长期护理保险服务记录单·服务记录栏（服务开始时间/服务结束时间）
+    scope:
+      collection: records
+      as: r
+      derive:
+        diff: {fn: minutes_between, args: [{ref: r.start_time}, {ref: r.end_time}]}
+      filter:
+        and:
+          - present: {ref: r.start_time}
+          - present: {ref: r.end_time}
+    when: {le: [{ref: d.diff}, {const: 0}]}
+    message: 服务结束时间 {end_time} 不晚于开始时间 {start_time}
+    evidence: {start_time: {ref: r.start_time}, end_time: {ref: r.end_time}}
+    record_ref: {ref: r.record_no}
+
+  - id: E_DURATION_MISMATCH
+    kind: check
+    severity: E
+    clause: 长期护理保险服务记录单·服务记录栏（时长应按起止时间填写）
+    scope:
+      collection: records
+      as: r
+      derive:
+        diff: {fn: minutes_between, args: [{ref: r.start_time}, {ref: r.end_time}]}
+        gap: {fn: abs, args: [{fn: sub, args: [{ref: r.duration_min}, {ref: d.diff}]}]}
+      filter:
+        and:
+          - present: {ref: r.start_time}
+          - present: {ref: r.end_time}
+          - present: {ref: r.duration_min}
+          - gt: [{ref: d.diff}, {const: 0}]
+    when: {gt: [{ref: d.gap}, {param: duration_tolerance}]}
+    message: 填报时长 {declared} 分钟与起止时间推算的 {computed} 分钟不符
+    evidence:
+      declared: {ref: r.duration_min}
+      computed: {ref: d.diff}
+      start_time: {ref: r.start_time}
+      end_time: {ref: r.end_time}
+    record_ref: {ref: r.record_no}
+
+  - id: I_ITEM_COUNT_MISMATCH
+    kind: check
+    severity: I
+    clause: 长期护理保险服务记录单·服务记录栏（服务项目数合计）
+    scope:
+      collection: records
+      as: r
+      filter: {present: {ref: r.item_count}}
+    when: {ne: [{ref: r.item_count}, {len: {ref: r.items}}]}
+    message: 服务项目数合计填 {declared}，实际列了 {actual} 项
+    evidence: {declared: {ref: r.item_count}, actual: {len: {ref: r.items}}}
+    record_ref: {ref: r.record_no}
+
+  - id: E_NO_SIGN
+    kind: check
+    severity: E
+    clause: 长期护理保险服务记录单·签字确认栏（一服务一记录，须双方签字）
+    scope:
+      collection: records
+      as: r
+      iterate:
+        over:
+          - {field: caregiver_sign, label: 护理人员签字}
+          - {field: elder_sign, label: 参保人员（家属）签名}
+        as: need
+    when: {absent: {ref_field: {row: {ref: r}, field: {ref: need.field}}}}
+    message: 缺{label}
+    evidence: {missing: {ref: need.field}, label: {ref: need.label}}
+    record_ref: {ref: r.record_no}
+
+  - id: E_ABNORMAL_NO_REMEDY
+    kind: check
+    severity: E
+    clause: 长期护理保险服务记录单·异常情况说明/处理措施/处理时间
+    scope:
+      collection: records
+      as: r
+      filter: {present: {ref: r.abnormal_note}}
+      iterate:
+        over:
+          - {field: remedy, label: 处理措施}
+          - {field: remedy_time, label: 处理时间}
+        as: need
+    when: {absent: {ref_field: {row: {ref: r}, field: {ref: need.field}}}}
+    message: 记录了异常情况（{abnormal_note.head20}…）但缺{label}
+    evidence:
+      abnormal_note: {ref: r.abnormal_note}
+      missing: {ref: need.field}
+      label: {ref: need.label}
+    record_ref: {ref: r.record_no}
+
+  - id: E_QUAL_MISMATCH
+    kind: check
+    severity: E
+    clause: 长期护理保险服务记录单·护理人员资质；质量评价表·其他类第 1 项（非持证人员提供医疗护理直接判不合格）
+    scope:
+      collection: records
+      as: r
+      bind: {cg: caregivers@r.caregiver_id}
+      filter: {present: {ref: cg}}
+    when:
+      and:
+        - any: {over: {ref: r.items}, as: item, test: {in: [{ref: item}, {dict: medical_item_names}]}}
+        - not_in: [{fn: trim, args: [{ref: cg.qualification}]}, {dict: certified_qualifications}]
+    message: 资质「{qualification}」不属于持证护理人员，却执行了医疗护理类项目 {items}
+    evidence:
+      qualification: {ref: cg.qualification}
+      items: {ref: r.items}
+    record_ref: {ref: r.record_no}
+
+  - id: W_QUAL_SCOPE_REVIEW
+    kind: check
+    severity: W
+    clause: 长期护理保险服务记录单·护理人员资质；巡查记录表·机构管理（人员类型与服务范围相匹配）
+    scope:
+      collection: records
+      as: r
+      bind: {cg: caregivers@r.caregiver_id}
+      filter: {present: {ref: cg}}
+    when:
+      and:
+        - in: [{fn: trim, args: [{ref: cg.qualification}]}, {dict: scope_review_qualifications}]
+        - any: {over: {ref: r.items}, as: item, test: {in: [{ref: item}, {dict: medical_item_names}]}}
+    message: 资质「{qualification}」执行医疗护理类项目 {items}，需核对该地区是否允许其执业范围
+    evidence: {qualification: {ref: cg.qualification}, items: {ref: r.items}}
+    record_ref: {ref: r.record_no}
+
+  - id: W_OFF_PLAN
+    kind: check
+    severity: W
+    clause: 护理服务计划表·服务项目栏；巡查记录表·服务管理（按护理服务计划提供服务）
+    scope:
+      collection: records
+      as: r
+      bind: {elder: elders@r.elder_id}
+      filter:
+        and:
+          - present: {ref: elder}
+          - gt: [{len: {ref: elder.plan}}, {const: 0}]
+      iterate: {over: {ref: r.items}, as: item}
+    when:
+      and:
+        - in: [{ref: item}, {dict: catalog_names}]
+        - none: {over: {ref: elder.plan}, as: p, test: {eq: [{ref: p.name}, {ref: item}]}}
+    message: 服务项目「{item}」不在该参保人的护理服务计划内
+    evidence: {item: {ref: item}}
+    record_ref: {ref: r.record_no}
+
+  - id: W_SERVICE_TYPE_MISMATCH
+    kind: check
+    severity: W
+    clause: 长期护理保险服务记录单·服务类型；失能人员档案信息表·护理方式
+    scope:
+      collection: records
+      as: r
+      bind: {elder: elders@r.elder_id}
+      filter:
+        and:
+          - present: {ref: elder}
+          - present: {ref: elder.service_type}
+          - present: {ref: r.service_type}
+    when: {ne: [{ref: r.service_type}, {ref: elder.service_type}]}
+    message: 记录服务类型「{record}」与备案护理方式「{enrolled}」不一致
+    evidence: {record: {ref: r.service_type}, enrolled: {ref: elder.service_type}}
+    record_ref: {ref: r.record_no}
+
+  - id: W_ADDRESS_MISMATCH
+    kind: check
+    severity: W
+    clause: 长期护理保险服务记录单·服务地址；失能人员档案信息表·居住地址
+    scope:
+      collection: records
+      as: r
+      bind: {elder: elders@r.elder_id}
+      filter:
+        and:
+          - eq: [{ref: r.service_type}, {const: 居家护理}]
+          - present: {ref: elder}
+          - present: {ref: elder.address}
+          - present: {ref: r.service_address}
+    when: {ne: [{ref: r.service_address}, {ref: elder.address}]}
+    message: 服务地址「{record}」与备案居住地址「{enrolled}」不一致
+    evidence: {record: {ref: r.service_address}, enrolled: {ref: elder.address}}
+    record_ref: {ref: r.record_no}
+
+  - id: W_LATE_ENTRY
+    kind: check
+    severity: W
+    clause: 长期护理保险服务记录单（按次如实填写）；长期护理服务月度汇总表（按月归集）
+    scope:
+      collection: records
+      as: r
+      derive:
+        lag: {fn: date_diff_days, args: [{ref: r.submit_time}, {ref: r.service_date}]}
+      filter:
+        and:
+          - present: {ref: r.submit_time}
+          - present: {ref: r.service_date}
+    when: {gt: [{ref: d.lag}, {param: late_entry_days}]}
+    message: 服务日期 {service_date}，录入日期 {submit}，滞后 {lag_days} 天
+    evidence:
+      service_date: {ref: r.service_date}
+      submit: {fn: head, args: [{ref: r.submit_time}, {const: 10}]}
+      lag_days: {ref: d.lag}
+    record_ref: {ref: r.record_no}
+
+  - id: E_CAREGIVER_OVERLAP
+    kind: overlap
+    severity: E
+    clause: 长期护理保险服务记录单·服务开始/结束时间；巡查记录表·费用结算（不得重复收取）
+    scope:
+      collection: records
+      as: r
+      group_by: [r.caregiver_id, r.service_date]
+      group_names: [caregiver_id, service_date]
+      span: [r.start_time, r.end_time]
+    message: 护理人员 {caregiver_id} 在 {service_date} 的 {record_no} 与 {other_record} 时段重叠
+    evidence:
+      other_record: {ref: other.record_no}
+      a: [{ref: r.start_time}, {ref: r.end_time}]
+      b: [{ref: other.start_time}, {ref: other.end_time}]
+    record_ref: {ref: r.record_no}
+
+  - id: E_ELDER_OVERLAP
+    kind: overlap
+    severity: E
+    clause: 长期护理保险服务记录单·一服务一记录；巡查记录表·费用结算（不得重复收取）
+    scope:
+      collection: records
+      as: r
+      group_by: [r.elder_id, r.service_date]
+      group_names: [elder_id, service_date]
+      span: [r.start_time, r.end_time]
+    report: later
+    message: 参保人 {elder_id} 在 {service_date} 同时段有两条服务记录（{record_no} / {other_record}）
+    evidence: {other_record: {ref: other.record_no}}
+    record_ref: {ref: r.record_no}
+
+  - id: W_EXCESS_DAILY
+    kind: aggregate
+    severity: W
+    clause: 国家长期护理保险服务项目目录·四（各地应测算确定项目服务时长与享受频次）
+    scope:
+      collection: records
+      as: r
+      group_by: [r.elder_id, r.service_date]
+      group_names: [elder_id, date]
+      measure: {fn: minutes_between, args: [{ref: r.start_time}, {ref: r.end_time}]}
+      filter:
+        and:
+          - present: {ref: r.start_time}
+          - present: {ref: r.end_time}
+    when: {gt: [{ref: total}, {param: day_max_minutes}]}
+    message: 参保人 {elder_id} 在 {date} 累计服务 {total_minutes} 分钟，超过单日阈值 {threshold} 分钟
+    evidence:
+      elder_id: {ref: group.elder_id}
+      date: {ref: group.date}
+      total_minutes: {ref: total}
+      threshold: {param: day_max_minutes}
+
+  - id: W_FREQ_MISMATCH
+    kind: frequency
+    severity: W
+    clause: 护理服务计划表·确定频次；长期护理服务月度汇总表
+    scope:
+      collection: elders
+      as: elder
+      # 空计划由内核 `if not plan: continue` 兜住，这里不再写一遍 filter
+      plan: {rows: elder.plan, target: freq_per_month}
+      actual:
+        collection: records
+        filter: {eq: [{ref: r.elder_id}, {ref: elder.elder_id}]}
+        month: {fn: month, args: [{ref: r.service_date}]}
+        items: {ref: r.items}
+      short:
+        id: W_FREQ_SHORT
+        severity: W
+        message: '{elder_id} 在 {month} 的「{item}」执行 {actual} 次，低于计划 {planned} 次'
+        clause: 护理服务计划表·建议频次/确定频次；长期护理服务月度汇总表
+      over:
+        id: W_FREQ_OVER
+        severity: W
+        message: '{elder_id} 在 {month} 的「{item}」执行 {actual} 次，超出计划 {planned} 次'
+        clause: 护理服务计划表·确定频次；巡查记录表·费用结算（不得重复、分解收取）

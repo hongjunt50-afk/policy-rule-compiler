@@ -1,0 +1,75 @@
+{
+  "case_id": "CLEAN-2026-10-001",
+  "note": "完全合规的对照组用例：用于证明规则引擎不会乱报（假阳性为零）。",
+  "elders": [
+    {
+      "elder_id": "E100",
+      "name": "陈某某",
+      "service_type": "居家护理",
+      "disability_level": "重度失能Ⅱ级",
+      "address": "示例市示例区示例路 5 号 2 单元 101",
+      "plan": [
+        {"name": "协助进食/水及指导（含管饲饮食）", "freq_per_month": 2},
+        {"name": "擦浴", "freq_per_month": 1},
+        {"name": "吸痰", "freq_per_month": 1}
+      ]
+    }
+  ],
+  "caregivers": [
+    {"caregiver_id": "C100", "name": "周某", "qualification": "护士"},
+    {"caregiver_id": "C101", "name": "吴某", "qualification": "长期照护师"}
+  ],
+  "records": [
+    {
+      "record_no": "R-1001",
+      "elder_id": "E100",
+      "caregiver_id": "C101",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 5 号 2 单元 101",
+      "service_date": "2026-10-05",
+      "start_time": "08:00",
+      "end_time": "09:00",
+      "duration_min": 60,
+      "items": ["协助进食/水及指导（含管饲饮食）", "擦浴"],
+      "item_count": 2,
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-05 19:00"
+    },
+    {
+      "record_no": "R-1002",
+      "elder_id": "E100",
+      "caregiver_id": "C100",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 5 号 2 单元 101",
+      "service_date": "2026-10-06",
+      "start_time": "09:00",
+      "end_time": "09:40",
+      "duration_min": 40,
+      "items": ["吸痰"],
+      "item_count": 1,
+      "abnormal_note": "痰液粘稠",
+      "remedy": "遵医嘱增加雾化，已通知家属",
+      "remedy_time": "2026-10-06 10:20",
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-06 20:00"
+    },
+    {
+      "record_no": "R-1003",
+      "elder_id": "E100",
+      "caregiver_id": "C101",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 5 号 2 单元 101",
+      "service_date": "2026-10-07",
+      "start_time": "08:00",
+      "end_time": "08:30",
+      "duration_min": 30,
+      "items": ["协助进食/水及指导（含管饲饮食）"],
+      "item_count": 1,
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-07 18:30"
+    }
+  ]
+}

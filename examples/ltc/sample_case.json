@@ -1,0 +1,166 @@
+{
+  "case_id": "DEMO-2026-10-001",
+  "note": "合成演示数据，人物与机构均为虚构，仅用于验证规则引擎。",
+  "elders": [
+    {
+      "elder_id": "E001",
+      "name": "张某某",
+      "service_type": "居家护理",
+      "disability_level": "重度失能Ⅱ级",
+      "address": "示例市示例区示例路 10 号 3 单元 201",
+      "plan": [
+        {
+          "name": "协助进食/水及指导（含管饲饮食）",
+          "freq_per_month": 30
+        },
+        {
+          "name": "协助排泄",
+          "freq_per_month": 30
+        },
+        {
+          "name": "擦浴",
+          "freq_per_month": 8
+        },
+        {
+          "name": "生命体征测量",
+          "freq_per_month": 4
+        }
+      ]
+    },
+    {
+      "elder_id": "E002",
+      "name": "李某某",
+      "service_type": "居家护理",
+      "disability_level": "重度失能Ⅰ级",
+      "address": "示例市示例区示例路 22 号 1 单元 502",
+      "plan": [
+        {
+          "name": "协助进食/水及指导（含管饲饮食）",
+          "freq_per_month": 30
+        },
+        {
+          "name": "吸痰",
+          "freq_per_month": 15
+        }
+      ]
+    }
+  ],
+  "caregivers": [
+    {
+      "caregiver_id": "C001",
+      "name": "王某",
+      "qualification": "长期照护师"
+    },
+    {
+      "caregiver_id": "C002",
+      "name": "赵某",
+      "qualification": "护士"
+    },
+    {
+      "caregiver_id": "C003",
+      "name": "孙某",
+      "qualification": "养老护理员"
+    },
+    {
+      "caregiver_id": "C004",
+      "name": "郑某",
+      "qualification": "其他"
+    }
+  ],
+  "records": [
+    {
+      "record_no": "R-0001",
+      "elder_id": "E001",
+      "caregiver_id": "C001",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 10 号 3 单元 201",
+      "service_date": "2026-10-05",
+      "start_time": "08:00",
+      "end_time": "09:00",
+      "duration_min": 60,
+      "items": [
+        "协助进食/水及指导（含管饲饮食）",
+        "协助排泄"
+      ],
+      "item_count": 2,
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-05 20:10"
+    },
+    {
+      "record_no": "R-0002",
+      "elder_id": "E001",
+      "caregiver_id": "C001",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 10 号 3 单元 201",
+      "service_date": "2026-10-05",
+      "start_time": "08:30",
+      "end_time": "09:20",
+      "duration_min": 50,
+      "items": [
+        "擦浴"
+      ],
+      "item_count": 1,
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-05 21:00"
+    },
+    {
+      "record_no": "R-0003",
+      "elder_id": "E002",
+      "caregiver_id": "C003",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 22 号 1 单元 502",
+      "service_date": "2026-10-06",
+      "start_time": "09:00",
+      "end_time": "09:30",
+      "duration_min": 30,
+      "items": [
+        "吸痰",
+        "协助进食/水及指导（含管饲饮食）"
+      ],
+      "item_count": 2,
+      "caregiver_sign": true,
+      "elder_sign": false,
+      "submit_time": "2026-10-12 10:00"
+    },
+    {
+      "record_no": "R-0004",
+      "elder_id": "E001",
+      "caregiver_id": "C002",
+      "service_type": "机构护理",
+      "service_address": "示例市示例区示例路 10 号 3 单元 201",
+      "service_date": "2026-10-07",
+      "start_time": "10:00",
+      "end_time": "09:30",
+      "duration_min": 40,
+      "items": [
+        "协助进食/水及指导（含管饲饮食）",
+        "洗脚"
+      ],
+      "item_count": 3,
+      "caregiver_sign": false,
+      "elder_sign": true,
+      "submit_time": "2026-10-07 18:00"
+    },
+    {
+      "record_no": "R-0005",
+      "elder_id": "E002",
+      "caregiver_id": "C004",
+      "service_type": "居家护理",
+      "service_address": "示例市示例区示例路 22 号 1 单元 502",
+      "service_date": "2026-10-08",
+      "start_time": "14:00",
+      "end_time": "14:40",
+      "duration_min": 40,
+      "items": [
+        "吸痰"
+      ],
+      "item_count": 1,
+      "abnormal_note": "照护对象诉胸闷",
+      "caregiver_sign": true,
+      "elder_sign": true,
+      "submit_time": "2026-10-08 19:00"
+    }
+  ]
+}

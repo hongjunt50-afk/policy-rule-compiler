@@ -1,0 +1,210 @@
+{
+  "fixtures": [
+    {
+      "name": "sample_case 命中面",
+      "case": "sample_case.json",
+      "expect": {
+        "E": 9,
+        "W": 9,
+        "I": 1
+      },
+      "findings": [
+        [
+          "E_UNKNOWN_SERVICE",
+          "R-0004"
+        ],
+        [
+          "E_BAD_TIME",
+          "R-0004"
+        ],
+        [
+          "E_NO_SIGN",
+          "R-0003"
+        ],
+        [
+          "E_NO_SIGN",
+          "R-0004"
+        ],
+        [
+          "E_ABNORMAL_NO_REMEDY",
+          "R-0005"
+        ],
+        [
+          "E_ABNORMAL_NO_REMEDY",
+          "R-0005"
+        ],
+        [
+          "E_QUAL_MISMATCH",
+          "R-0005"
+        ],
+        [
+          "E_CAREGIVER_OVERLAP",
+          "R-0001"
+        ],
+        [
+          "E_ELDER_OVERLAP",
+          "R-0002"
+        ],
+        [
+          "W_QUAL_SCOPE_REVIEW",
+          "R-0003"
+        ],
+        [
+          "W_SERVICE_TYPE_MISMATCH",
+          "R-0004"
+        ],
+        [
+          "W_LATE_ENTRY",
+          "R-0003"
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ],
+        [
+          "I_ITEM_COUNT_MISMATCH",
+          "R-0004"
+        ]
+      ]
+    },
+    {
+      "name": "clean_case 假阳性为零",
+      "case": "clean_case.json",
+      "expect": {
+        "E": 0,
+        "W": 0,
+        "I": 0
+      },
+      "findings": []
+    },
+    {
+      "name": "edge_case 长尾语义",
+      "case": "edge_case.json",
+      "findings": [
+        [
+          "E_DURATION_MISMATCH",
+          "R-2007"
+        ],
+        [
+          "W_OFF_PLAN",
+          "R-2005"
+        ],
+        [
+          "W_ADDRESS_MISMATCH",
+          "R-2006"
+        ],
+        [
+          "W_EXCESS_DAILY",
+          null
+        ],
+        [
+          "W_FREQ_OVER",
+          null
+        ],
+        [
+          "W_FREQ_SHORT",
+          null
+        ]
+      ]
+    },
+    {
+      "name": "noplan_case 无计划不误报",
+      "case": "noplan_case.json",
+      "expect": {
+        "E": 0,
+        "W": 0,
+        "I": 0
+      },
+      "findings": []
+    },
+    {
+      "name": "boundary_case 阈值贴边",
+      "case": "boundary_case.json",
+      "must_not_hit": [
+        "W_LATE_ENTRY"
+      ],
+      "findings": [
+        [
+          "E_BAD_TIME",
+          "R-3005"
+        ],
+        [
+          "E_BAD_TIME",
+          "R-3011"
+        ],
+        [
+          "E_BAD_TIME",
+          "R-3013"
+        ],
+        [
+          "E_DURATION_MISMATCH",
+          "R-3008"
+        ],
+        [
+          "W_QUAL_SCOPE_REVIEW",
+          "R-3007"
+        ],
+        [
+          "W_OFF_PLAN",
+          "R-3007"
+        ],
+        [
+          "W_OFF_PLAN",
+          "R-3012"
+        ],
+        [
+          "W_EXCESS_DAILY",
+          null
+        ],
+        [
+          "W_FREQ_OVER",
+          null
+        ],
+        [
+          "W_FREQ_OVER",
+          null
+        ]
+      ]
+    },
+    {
+      "name": "阈值放宽后超额告警应消失",
+      "case": "edge_case.json",
+      "params": {
+        "day_max_minutes": 100000
+      },
+      "must_not_hit": [
+        "W_EXCESS_DAILY"
+      ]
+    },
+    {
+      "name": "阈值收紧后超额告警应出现",
+      "case": "boundary_case.json",
+      "params": {
+        "day_max_minutes": 100
+      },
+      "must_hit": [
+        "W_EXCESS_DAILY"
+      ]
+    }
+  ]
+}

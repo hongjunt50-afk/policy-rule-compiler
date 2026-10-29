@@ -1,0 +1,277 @@
+{
+ "case_id": "BOUNDARY-2026-10-001",
+ "note": "边界用例：判据恰好落在阈值上且合规，外加贴边 1 单位的不合规。把 > 写成 >=、容差改成 0、白名单砍断，都会让它变红。",
+ "elders": [
+  {
+   "elder_id": "E300",
+   "name": "边界某",
+   "service_type": "居家护理",
+   "disability_level": "重度失能Ⅱ级",
+   "address": "示例市示例区边界路 1 号",
+   "plan": [
+    {
+     "name": "擦浴",
+     "freq_per_month": 1
+    },
+    {
+     "name": "协助排泄",
+     "freq_per_month": 2
+    }
+   ]
+  }
+ ],
+ "caregivers": [
+  {
+   "caregiver_id": "C300",
+   "name": "边界护",
+   "qualification": "长期照护师"
+  },
+  {
+   "caregiver_id": "C301",
+   "name": "边界养",
+   "qualification": "养老护理员"
+  },
+  {
+   "caregiver_id": "C302",
+   "name": "边界医",
+   "qualification": "医疗护理员"
+  }
+ ],
+ "records": [
+  {
+   "record_no": "R-3001",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-05",
+   "start_time": "08:00",
+   "end_time": "12:00",
+   "duration_min": 240,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-3002",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-05",
+   "start_time": "13:00",
+   "end_time": "17:00",
+   "duration_min": 240,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-3003",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-06",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-09 20:00"
+  },
+  {
+   "record_no": "R-3004",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-07",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 61,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-07 20:00"
+  },
+  {
+   "record_no": "R-3005",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-08",
+   "start_time": "08:00",
+   "end_time": "08:00",
+   "duration_min": 0,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-08 20:00"
+  },
+  {
+   "record_no": "R-3006",
+   "elder_id": "E300",
+   "caregiver_id": "C301",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-09",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-09 20:00"
+  },
+  {
+   "record_no": "R-3007",
+   "elder_id": "E300",
+   "caregiver_id": "C302",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-10",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "快速血糖测定"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-10 20:00"
+  },
+  {
+   "record_no": "R-3008",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-11",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 65,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-11 20:00"
+  },
+  {
+   "record_no": "R-3009",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-12",
+   "start_time": "08:00",
+   "end_time": "12:01",
+   "duration_min": 241,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-12 20:00"
+  },
+  {
+   "record_no": "R-3010",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-12",
+   "start_time": "13:00",
+   "end_time": "17:00",
+   "duration_min": 240,
+   "items": [
+    "协助排泄"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-12 20:00"
+  },
+  {
+   "record_no": "R-3011",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-13",
+   "start_time": "09:00",
+   "end_time": "08:00",
+   "duration_min": 30,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-3012",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-14",
+   "start_time": "08:00",
+   "end_time": "09:00",
+   "duration_min": 60,
+   "items": [
+    "快速血糖测定"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-05 20:00"
+  },
+  {
+   "record_no": "R-3013",
+   "elder_id": "E300",
+   "caregiver_id": "C300",
+   "service_type": "居家护理",
+   "service_address": "示例市示例区边界路 1 号",
+   "service_date": "2026-10-15",
+   "start_time": "08:00",
+   "end_time": "08:00",
+   "duration_min": 30,
+   "items": [
+    "擦浴"
+   ],
+   "item_count": 1,
+   "caregiver_sign": true,
+   "elder_sign": true,
+   "submit_time": "2026-10-15 20:00"
+  }
+ ],
+ "code": "BOUNDARY-2026-10-001"
+}
