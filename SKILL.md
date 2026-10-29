@@ -172,9 +172,9 @@ python ../scripts/rulec.py run claims/claims.ruleset.json claims/claims_demo.jso
 - **别把"人现场判断"的条款硬编成规则**：巡查表 30 项里约一半是"制度是否建立""是否有突出贡献"，机器只能查有没有附件，不能判断内容。规则源里宁可留空，也不要写个永远返回 True 的假规则。
 - **`mutate` 报存活先别急着加 fixture**：先确认那个变异是不是等价变异（比如 `filter: gt(len(plan),0)` 与内核里 `if not plan: continue` 重复，删掉才对）。
 
-## 发布
+## 开源仓库
 
-开源仓库 <https://github.com/hongjunt50-afk/policy-rule-compiler>（MIT）。技能正本在本机技能目录，发布工作副本在仓库根，两份内容一致——改完同步时保持 SKILL.md 与 README.md 不产生分叉。
+<https://github.com/hongjunt50-afk/policy-rule-compiler>（MIT）。仓库里同时有 `README.md`（给人看）与 `SKILL.md`（给 agent 看），两份都要跟着改，别只改一份。
 
 ## 自检
 
