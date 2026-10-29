@@ -205,6 +205,11 @@ python 自查工具.py --show-rules                  # 打印「严重度 规则
 python tests/test_rulec.py     # 21 项：编译拒绝 9 类错、执行、变异全抓、导出独立运行、跨域
 ```
 
+## 相关项目
+
+- [ltc-consistency-engine](https://github.com/hongjunt50-afk/ltc-consistency-engine) — 长护险服务过程一致性核验引擎（手写 Python 实现）。本仓库 `examples/ltc/` 的 16 条规则就是它的规则源形态，两者在 2 份 fixture 上逐规则零差异。
+- [ClinicalFaultBench](https://github.com/hongjunt50-afk/ClinicalFaultBench) — 临床 AI 智能体失效审计基准。
+
 ## 许可
 
 MIT，见 [LICENSE](LICENSE)。
